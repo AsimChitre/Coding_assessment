@@ -33,11 +33,10 @@ def get_ordering_of_points(x, y):
 
     ordered_coords = np.hstack([x_sorted.reshape(-1, 1), y_sorted.reshape(-1, 1)])  # combining x and y
     ordered_coords = ordered_coords[::-1, :]   # clockwise order
-    #print(ordered_coords)
     return ordered_coords
 
 
-def get_shape(ordered_coordinates):
+def get_shape(ordered_coord):
     homogeneous = np.hstack([ordered_coordinates, np.ones((4, 1))])  # 4 is number of points (4,1) matrix
 
     # create diagonal line equations
@@ -105,5 +104,15 @@ def get_shape(ordered_coordinates):
         return "Other"
 
 
+if __name__ == '__main__':
+    user_input = input().split()
+    coordinates = np.array([literal_eval(coords) for coords in user_input])
+    ordered_coordinates = get_ordering_of_points(coordinates[:,0], coordinates[:,1])
+    get_shape_of_quad = get_shape(ordered_coordinates)
+    if get_shape_of_quad == 'Other':
+        print("Other -1")
+    else:
+        area = get_area(ordered_coordinates)
+        print("{} {:.0f}".format(get_shape_of_quad,area))
 
 
